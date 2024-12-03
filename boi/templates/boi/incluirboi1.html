@@ -1,0 +1,98 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Incluir Boi{% endblock %}
+
+{% block content %}
+<div class="incluirboi-container">
+    <h1>Entrada de Animais</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="info-add">
+            <legend>Adicionar Novo Animal:</legend>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="brinco">Brinco:</label>
+                    <input type="text" name="brinco" id="brinco" required>
+                </div>
+                <div class="form-group">
+                    <label for="fornecedor">Fornecedor:</label>
+                    <input type="text" name="fornecedor" id="fornecedor">
+                </div>
+                <div class="form-group">
+                    <label for="sexo">Sexo:</label>
+                    <select name="sexo" id="sexo">
+                        {% for sexo in sexos %}
+                        <option value="{{ sexo.id }}">{{ sexo.tipo_sexo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="raca">Raça:</label>
+                    <select name="raca" id="raca">
+                        {% for raca in racas %}
+                        <option value="{{ raca.id }}">{{ raca.tipo_raca }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lote">Lote:</label>
+                    <select name="lote" id="lote">
+                        {% for lote in lotes %}
+                        <option value="{{ lote.id }}">{{ lote.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="peso">Peso:</label>
+                    <input type="number" name="peso" id="peso" placeholder="kg" required>
+                </div>
+                <div class="form-group">
+                    <label for="curral">Curral:</label>
+                    <select name="curral" id="curral">
+                        {% for curral in currais %}
+                        <option value="{{ curral.id }}">{{ curral.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <button type="submit" name="action" value="add" class="btn-add">Adicionar à Lista</button>
+            </div>
+        </fieldset>
+
+        <fieldset class="table-section">
+            <legend>Animais Adicionados</legend>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Brinco</th>
+                            <th>Fornecedor</th>
+                            <th>Sexo</th>
+                            <th>Raça</th>
+                            <th>Lote</th>
+                            <th>Curral</th>
+                            <th>Peso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for boi in animais_temp %}
+                        <tr>
+                            <td>{{ boi.brinco }}</td>
+                            <td>{{ boi.fornecedor }}</td>
+                            <td>{{ boi.sexo.tipo_sexo }}</td>
+                            <td>{{ boi.raca.tipo_raca }}</td>
+                            <td>{{ boi.lote.nome }}</td>
+                            <td>{{ boi.curral.nome }}</td>
+                            <td>{{ boi.peso }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </fieldset>
+
+        <button type="submit" name="action" value="save" class="btn-save">Salvar Todos</button>
+    </form>
+</div>
+{% endblock %}

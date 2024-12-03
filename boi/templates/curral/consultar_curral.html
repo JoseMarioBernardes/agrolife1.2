@@ -1,0 +1,68 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Consultar Curral{% endblock %}
+
+{% block content %}
+
+
+<div class="main-content">
+    <h1>Consultar Curral</h1>
+
+    <!-- Barra de busca -->
+    <form method="get" class="search-bar">
+        <input type="text" name="q" value="{{ query }}" placeholder="Pesquisar por nome...">
+        <button type="submit">Pesquisar</button>
+    </form>
+
+    <!-- Botão Criar -->
+    <div class="actions">
+        <a href="{% url 'criarcurral' %}" class="btn btn-create">Criar Curral</a>
+    </div>
+
+    <!-- Tabela de currais -->
+    <form method="post" action="{% url 'excluircurrais' %}">
+        {% csrf_token %}
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="select-all"></th>
+                    <th>Nome</th>
+                    <th>Peso Mínimo</th>
+                    <th>Peso Máximo</th>
+                    <th>Capacidade Máxima</th>
+                    <th>Tipo Curral</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for curral in currais %}
+                <tr>
+                    <td><input type="checkbox" name="selected_currais" value="{{ curral.id_curral }}"></td>
+                    <td>{{ curral.nome }}</td>
+                    <td>{{ curral.peso_min }}</td>
+                    <td>{{ curral.peso_max }}</td>
+                    <td>{{ curral.capacidade_max }}</td>
+                    <td>{{ curral.id_tipoCurral.tipo_curral }}</td>
+                    <td>
+                        <a href="{% url 'editarcurral' curral.id_curral %}" class="btn btn-edit">Editar</a>
+                        <button type="submit" formaction="{% url 'excluircurrais' %}" class="btn btn-delete">Excluir</button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">Nenhum curral encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<script>
+    // Selecionar todas as caixas
+    document.getElementById('select-all').addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('input[name="selected_currais"]');
+        checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+    });
+</script>
+{% endblock %}

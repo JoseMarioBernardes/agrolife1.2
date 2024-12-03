@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  {% load static %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}AgroLife{% endblock %}</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/criacurral-style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/formstyle.css' %}">
+  
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <i class='bx bxs-florist menu-icon'></i>
+      <span class="logo-text">AgroLife</span>
+    </div>
+    <ul class="menu">
+      <li class="menu-item">
+        <i class='bx bx-grid-alt'></i>
+        <span class="title">Dashboard</span>
+      </li>
+      <li class="menu-item has-submenu">
+        <div class="menu-link">
+          <i class='bx bx-columns'></i>
+          <span class="title">Cadastro</span>
+          <i class='bx bx-chevron-down dropdown-icon'></i>
+        </div>
+        <ul class="submenu">
+          <li class="submenu-item"><a href="{% url 'consultarboi' %}" class="submenu-link">Animal</a></li>
+          <li class="submenu-item"><a href="{% url 'consultarcurral' %}" class="submenu-link">Curral</a></li>
+          <li class="submenu-item">Lote</li>
+          <li class="submenu-item">Medicação</li>
+        </ul>
+      </li>
+      <li class="menu-item has-submenu">
+        <div class="menu-link">
+          <i class='bx bx-compass'></i>
+          <span class="title">Manejo</span>
+          <i class='bx bx-chevron-down dropdown-icon'></i>
+        </div>
+        <ul class="submenu">
+          <li class="submenu-item"><a href="{% url 'incluirboi' %}" class="submenu-link">Entrada</a></li>
+          <li class="submenu-item">Movimentação</li>
+          <li class="submenu-item">Saída</li>
+          <li class="submenu-item">Troca de curral</li>
+        </ul>
+      </li>
+      <li class="menu-item has-submenu">
+        <div class="menu-link">
+          <i class='bx bx-heart'></i>
+          <span class="title">Sanidade</span>
+          <i class='bx bx-chevron-down dropdown-icon'></i>
+        </div>
+        <ul class="submenu">
+          <li class="submenu-item">Aplicação Individual</li>
+          <li class="submenu-item">Protocolo Sanitário</li>
+        </ul>
+      </li>
+      <li class="menu-item has-submenu">
+        <div class="menu-link">
+          <i class='bx bxs-ambulance'></i>
+          <span class="title">Ronda</span>
+          <i class='bx bx-chevron-down dropdown-icon'></i>
+        </div>
+        <ul class="submenu">
+          <li class="submenu-item">Registrar Morte</li>
+          <li class="submenu-item">Registrar Nascimento</li>
+        </ul>
+      </li>
+      <li class="menu-item has-submenu">
+        <div class="menu-link">
+          <i class='bx bx-line-chart'></i>
+          <span class="title">Relatórios</span>
+          <i class='bx bx-chevron-down dropdown-icon'></i>
+        </div>
+        <ul class="submenu">
+          <li class="submenu-item">Histórico Animal</li>
+          <li class="submenu-item">Doenças Recorrentes</li>
+          <li class="submenu-item">Animais Medicados</li>
+          <li class="submenu-item">Animais Manejados</li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <i class='bx bx-log-out'></i>
+        <span class="title"><a href="{% url 'logout' %}" class="submenu-link">Sair</a></span>
+      </li>
+    </ul>
+  </div>
+  <div class="main-content">
+    {% block content %}
+
+    {% endblock %}
+  </div>
+
+  <script>
+    const toggleSidebar = () => {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('collapsed');
+    };
+
+    document.querySelector('.menu-icon').addEventListener('click', toggleSidebar);
+
+    // Submenu Toggle
+    document.querySelectorAll('.has-submenu .menu-link').forEach(link => {
+      link.addEventListener('click', () => {
+        const submenu = link.nextElementSibling;
+        submenu.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>

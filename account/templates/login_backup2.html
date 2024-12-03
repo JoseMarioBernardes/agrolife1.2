@@ -1,0 +1,41 @@
+{% block content %}
+{% load static %}  <!-- Carrega os arquivos estáticos do Django -->
+<!-- Link para o arquivo CSS -->
+<link rel="stylesheet" href="{% static 'css/stylelogin.css' %}">
+
+<div class="login-box">
+    <div class="login-header">
+        <header>AgroLife</header>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="input-box">
+            {{ login_form.username }} <!-- Campo de nome de usuário -->
+        </div>
+
+        <div class="input-box">
+            {{ login_form.password }} <!-- Campo de senha -->
+        </div>
+
+        <div class="forgot">
+            <section>
+                {{ login_form.remember_me }} <!-- Campo de "Lembrar-me" -->
+                <label for="remember_me">Mantenha-me conectado</label>
+            </section>
+            <section>
+                <a href="#">Esqueci a senha</a>
+            </section>
+        </div>
+
+        <div class="input-submit">
+            <button type="submit" class="submit-btn" id="btn-submit"></button>
+            <label for="btn-submit">Entrar</label>
+        </div>
+    </form>
+</div>
+
+
+
+{% endblock %}

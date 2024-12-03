@@ -1,0 +1,175 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Editar Animal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Editar Animal - Brinco #{{ boi.brinco }}</h1>
+        <p>Atualize os dados do animal abaixo</p>
+    </div>
+
+    <!-- Bloco para mensagens -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="form-container">
+        <form method="POST" class="edit-form">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Informações Básicas</legend>
+                <div class="form-group">
+                    <label for="brinco">Brinco:</label>
+                    <input type="text" id="brinco" name="brinco" value="{{ boi.brinco }}" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="sexo">Sexo:</label>
+                    <select id="sexo" name="sexo">
+                        {% for sexo in sexos %}
+                        <option value="{{ sexo.id }}" {% if sexo.id == boi.sexo.id %}selected{% endif %}>
+                            {{ sexo.tipo_sexo }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dataNascimento">Data de Nascimento:</label>
+                    <input type="date" id="dataNascimento" name="dataNascimento" value="{{ boi.data_nascimento }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="raca">Raça:</label>
+                    <select id="raca" name="raca">
+                        {% for raca in racas %}
+                        <option value="{{ raca.id }}" {% if raca.id == boi.raca.id %}selected{% endif %}>
+                            {{ raca.tipo_raca }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Informações Adicionais</legend>
+                
+                <div class="form-group">
+                    <label for="peso">Peso Atual (kg):</label>
+                    <input type="number" id="peso" name="peso" step="0.01" value="{{ boi.peso_entrada }}">
+                </div>
+            </fieldset>
+
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" onclick="window.location.href='{% url 'consultarboi' %}'">Cancelar</button>
+                <button type="submit" class="btn-submit">Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .header h1 {
+        font-size: 2rem;
+        color: #333;
+    }
+    .header p {
+        color: #666;
+        font-size: 1rem;
+    }
+    .messages {
+        margin-bottom: 20px;
+    }
+    .alert {
+        padding: 10px 20px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    .form-container {
+        padding: 20px;
+        background: #fff;
+        border-radius: 10px;
+    }
+    fieldset {
+        border: none;
+        margin-bottom: 20px;
+    }
+    legend {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .form-group input, .form-group select {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .btn-cancel {
+        background-color: #ccc;
+        border: none;
+        padding: 10px 20px;
+        color: #333;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+    .btn-cancel:hover {
+        background-color: #bbb;
+    }
+    .btn-submit {
+        background-color: #28a745;
+        border: none;
+        padding: 10px 20px;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+    .btn-submit:hover {
+        background-color: #218838;
+    }
+</style>

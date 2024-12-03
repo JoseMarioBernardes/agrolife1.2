@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroLife</title>
+    <style>
+        /* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #4CAF50;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+}
+
+h1 {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.form-container {
+    padding: 20px;
+    background-color: #e5e5e5;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+button.excluir {
+    background-color: #f44336;
+}
+
+button.editar {
+    background-color: #2196F3;
+}
+
+button.adicionar {
+    background-color: #4CAF50;
+}
+
+button.salvar {
+    background-color: blue;
+}
+
+.table-container {
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+    </style>
+</head>
+<body>
+
+{% extends 'home/base.html' %}
+
+{% block title %}Incluir Animal - AgroLife{% endblock %}
+
+{% block content %}
+
+    <main>
+        <form method="POST" action="{% url 'incluirboi' %}">
+            {% csrf_token %}
+            <!-- Data de Entrada -->
+            <label for="dataEntrada">Data de Entrada:</label>
+            <input type="date" name="dataEntrada" id="dataEntrada" required>
+            
+            <!-- Data de Nascimento -->
+            <label for="dataNascimento">Data de Nascimento:</label>
+            <input type="date" name="dataNascimento" id="dataNascimento" required>
+            
+            <!-- Brinco -->
+            <label for="brinco">Brinco:</label>
+            <input type="text" id="brinco" name="brinco" required>
+            
+            <!-- Fornecedor -->
+            <label for="fornecedor">Fornecedor:</label>
+            <input type="text" id="fornecedor" name="fornecedor" required>
+            
+            <!-- Sexo -->
+            <label for="sexo">Sexo:</label>
+            <select id="sexo" name="sexo" required>
+                <option value="">Selecione o sexo</option>
+                {% for sexo in sexos %}
+                <option value="{{ sexo.id }}">{{ sexo.tipo_sexo }}</option>
+                {% endfor %}
+            </select>
+            
+            <!-- Raça -->
+            <label for="raca">Raça:</label>
+            <select id="raca" name="raca" required>
+                <option value="">Selecione a raça</option>
+                {% for raca in racas %}
+                <option value="{{ raca.id }}">{{ raca.tipo_raca }}</option>
+                {% endfor %}
+            </select>
+            
+            <!-- Lote -->
+            <label for="lote">Lote:</label>
+            <select id="lote" name="lote" required>
+                <option value="">Selecione o lote</option>
+                {% for lote in lotes %}
+                <option value="{{ lote.id }}">{{ lote.nome }}</option>
+                {% endfor %}
+            </select>
+            
+            <!-- Peso Entrada -->
+            <label for="peso">Peso Entrada:</label>
+            <input type="number" id="peso" name="peso" required>
+        
+            <div class="buttons">
+                <button type="submit" class="salvar">Salvar</button>
+            </div>
+        </form>
+        
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>selecione</th>
+                            <th>Brinco</th>
+                            <th>Sexo</th>
+                            <th>Raça</th>
+                            <th>mes</th>
+                            <th>Curral</th>
+                            <th>Lote</th>
+                            <th>Peso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                      </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    {% endblock %}
+</body>
+<!-- Adicione este bloco logo após a tag <body> nos templates incluirboi.html e editarboi.html -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<style>
+    .alert {
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        text-align: center;
+    }
+    .alert.success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+    .alert.error {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+</style>
+<!-- Adicione este bloco logo após as mensagens no seu template incluirboi.html e editarboi.html -->
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<style>
+    .alert {
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        text-align: center;
+    }
+    .alert.success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+    .alert.error {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+</style>
+
+<script>
+    // Script para ocultar as mensagens após 5 segundos
+    setTimeout(function() {
+        var alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+            alert.style.display = 'none';
+        });
+    }, 5000); // 5000 milissegundos = 5 segundos
+</script>
+
+</html>
