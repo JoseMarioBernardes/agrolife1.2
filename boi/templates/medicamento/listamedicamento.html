@@ -1,0 +1,163 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Lista de Medicamentos{% endblock %}
+
+{% block content %}
+
+<style>
+    .listamedicamento-container {
+        margin: 20px auto;
+        max-width: 900px;
+        font-family: 'Poppins', sans-serif;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Título */
+    .listamedicamento-container h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+    
+    /* Formulário de busca */
+    .search-form {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    
+    .search-input {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    
+    .search-button {
+        padding: 10px 15px;
+        border: none;
+        background-color: #3498db;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .search-button:hover {
+        background-color: #2980b9;
+    }
+
+    .clear-button {
+        padding: 10px 15px;
+        border: none;
+        background-color: #e74c3c;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .add-button {
+        padding: 10px 15px;
+        border: none;
+        background-color: green;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .clear-button:hover {
+        background-color: #c0392b;
+    }
+    
+    /* Tabela de medicamentos */
+    .medicamento-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    
+    .medicamento-table th,
+    .medicamento-table td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+    
+    .medicamento-table th {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    .medicamento-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    
+    .medicamento-table tr:hover {
+        background-color: #f1f1f1;
+    }
+    
+    /* Nenhum resultado encontrado */
+    .no-results {
+        text-align: center;
+        color: #e74c3c;
+        font-weight: bold;
+        padding: 10px;
+    }
+</style>
+
+<div class="listamedicamento-container">
+    <h1>Lista de Medicamentos</h1>
+
+    <!-- Formulário de busca -->
+    <form method="get" action="" class="search-form">
+        <input type="text" name="search" placeholder="Buscar medicamento" value="{{ request.GET.search }}" class="search-input">
+        <button type="submit" class="search-button">Buscar</button>
+        <a href="{% url 'listamedicamento' %}" class="clear-button">Limpar</a>
+        <a href="{% url 'criarmedicamento' %}" class="add-button">Adicionar</a>
+    </form>
+
+    <!-- Exibição dos medicamentos -->
+    <table class="medicamento-table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Laboratório</th>
+                <th>Tipo de Medicamento</th>
+                <th>Dias de Carência</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if medicamentos %}
+                {% for medicamento in medicamentos %}
+                    <tr>
+                        <td>{{ medicamento.nome }}</td>
+                        <td>{{ medicamento.laboratorio.nome }}</td>
+                        <td>{{ medicamento.tipo_medicamento.tipo_medicamento }}</td>
+                        <td>{{ medicamento.dias_carencia }}</td>
+                        <td>R$ {{ medicamento.preco }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="5" class="no-results">Nenhum medicamento encontrado.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data" class="form-container">
+        {% csrf_token %}
+        <table>
+
+            {{ criarmedicamento_form.as_table }}
+
+        </table>
+        <input type="submit" value="Cadastrar" class="btn btn-primary">
+    </form>
+{% endblock %} 

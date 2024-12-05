@@ -1,0 +1,161 @@
+{% extends 'home/base.html' %}
+
+{% block title %}Lista de Currais{% endblock %}
+
+{% block content %}
+
+<style>
+    .listacurral-container {
+        margin: 20px auto;
+        max-width: 900px;
+        font-family: 'Poppins', sans-serif;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Título */
+    .listacurral-container h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+    
+    /* Formulário de busca */
+    .search-form {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    
+    .search-input {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    
+    .search-button {
+        padding: 10px 15px;
+        border: none;
+        background-color: #3498db;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .search-button:hover {
+        background-color: #2980b9;
+    }
+
+    .clear-button {
+        padding: 10px 15px;
+        border: none;
+        background-color: #e74c3c;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .add-button {
+        padding: 10px 15px;
+        border: none;
+        background-color: green;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .clear-button:hover {
+        background-color: #c0392b;
+    }
+    
+    /* Tabela de currais */
+    .curral-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    
+    .curral-table th,
+    .curral-table td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+    
+    .curral-table th {
+        background-color: #3498db;
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    .curral-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    
+    .curral-table tr:hover {
+        background-color: #f1f1f1;
+    }
+    
+    /* Nenhum resultado encontrado */
+    .no-results {
+        text-align: center;
+        color: #e74c3c;
+        font-weight: bold;
+        padding: 10px;
+    }
+</style>
+
+<div class="listacurral-container">
+    <h1>Lista de Currais</h1>
+
+    <!-- Formulário de busca -->
+    <form method="get" action="" class="search-form">
+        <input type="text" name="search" placeholder="Buscar curral" value="{{ request.GET.search }}" class="search-input">
+        <button type="submit" class="search-button">Buscar</button>
+        <a href="{% url 'listacurral' %}" class="clear-button">Limpar</a>
+        <a href="{% url 'criarcurral' %}" class="add-button">adicionar</a>
+    </form>
+
+    <!-- Exibição dos currais -->
+    <table class="curral-table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Peso Mínimo</th>
+                <th>Peso Máximo</th>
+                <th>Tipo de Curral</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if currais %}
+                {% for curral in currais %}
+                    <tr>
+                        <td>{{ curral.nome }}</td>
+                        <td>{{ curral.peso_min }}</td>
+                        <td>{{ curral.peso_max }}</td>
+                        <td>{{ curral.curral_type.tipo_curral }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="4" class="no-results">Nenhum curral encontrado.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
